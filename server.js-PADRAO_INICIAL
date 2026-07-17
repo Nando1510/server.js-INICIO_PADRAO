@@ -22,6 +22,8 @@ app.use(session({
 
 // CONECTA O SERVIDOR NODE.JS AO BANCO DE DADOS MONGODB
 // SE ELE NÃO EXISTIR AINDA, O MONGODB CRIA AUTOMATICAMENTE QUANDO O USUÁRIO SALVAR O PRIMEIRO DADO.
+
+                                            //NOME DO BANCO DE DADOS A SER ESCOLHIDO, NO CASO AQUI, ORDEM.
 mongoose.connect('mongodb://localhost:27017/Ordem')
   .then(() => console.log('MongoDB conectado!'))
   .catch(err => console.error('Erro na conexão:', err));
