@@ -1,0 +1,65 @@
+//PARTE 1
+const express = require('express');
+const mongoose = require('mongoose');
+
+//VARIÁVEL REFERENTE A COLEÇÃO QUE FOR FAZER, SEJA ADMINISTRADOR, DEPOIS OUTRA PARA USUÁRIOS, ETC...
+const Administrador = require('./models/Administrador');
+
+const app = express(); 
+
+app.use(express.json());
+app.use(express.static('public'));
+
+//INICIA A CONFIGURAÇÃO PARA A SESSÃO
+const session = require('express-session');
+
+app.use(session({
+  secret: 'seuSegredoUltraSecreto', // troque por algo seguro
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // true só se usar HTTPS
+}));
+
+// CONECTA O SERVIDOR NODE.JS AO BANCO DE DADOS MONGODB
+// SE ELE NÃO EXISTIR AINDA, O MONGODB CRIA AUTOMATICAMENTE QUANDO O USUÁRIO SALVAR O PRIMEIRO DADO.
+mongoose.connect('mongodb://localhost:27017/Ordem')
+  .then(() => console.log('MongoDB conectado!'))
+  .catch(err => console.error('Erro na conexão:', err));
+  
+
+// INICIA O SERVIDOR EXPRESS DENTRO DO NODE.JS
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
+
+
+// FUNÇÃO QUE GERA UM ID  CRESCENTE PARA CADA NOVO REGISTRO
+async function gerarCustomId() {
+  const ultima = await Administrador.findOne().sort({ customId: -1 });
+  return ultima ? ultima.customId + 1 : 1;
+}
+
+
+//APÓS ABAIXO SE CRIAM AS ROTAS PARA LOGINS, LOGOUTS, DELETAR, EDITAR, ATUALIZAR AS SEGUINTES COLEÇÕES
+//DE ADMINISTRADORES, USUÁRIOS, ETCS, BEM COMO SUAS SESSÕES E SAÍDAS DE SESSÕES, POR EXEMPLO:
+
+//PARTE 2 - LOGIN ADMINISTRADOR 
+
+
+//PARTE 3 - LOGIN ADMINISTRADOR
+
+//PARTE 4 - LOGIN COM SESSÃO ADMINISTRADOR
+
+//PARTE 5 - LOGOUT DESTRUINDO A SESSÃO ADMINISTRADOR
+
+//PARTE 6 - ROTA PARA SALVAR OS DADOS - ADMINISTRADOR
+
+//PARTE 7 - ROTA PARA LISTAR OS ADMINISTRADORES CADASTRADOS
+
+//PARTE 8 - ROTA PARA ATUALIZAR DADOS DOS ADMINISTRADORES
+
+//PARTE 9 - ROTA PARA DELETAR ADMINISTRADORES
+
+//E ASSIM A SEQUÊNCIA PARA AS DEMAIS COLEÇÕES, COMO USUÁRIO COMUM, ETC...
+
